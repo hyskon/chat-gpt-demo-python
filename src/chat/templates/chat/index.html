@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Chat App</title>
+    <style>
+      /* Add some style to make the chat look nice */
+      body {
+        background-color: #222;
+        color: #eee;
+        font-family: sans-serif;
+      }
+      .chat-container {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      .chat-header {
+        background-color: #333;
+        padding: 10px;
+        text-align: center;
+      }
+      .chat-log {
+        background-color: #333;
+        overflow-y: scroll;
+        height: 400px;
+      }
+      .chat-log p {
+        margin: 0;
+        padding: 10px;
+      }
+      .user-message {
+        background-color: #555;
+      }
+      .bot-message {
+        background-color: #444;
+      }
+      .chat-input {
+        display: flex;
+        background-color: #333;
+        padding: 10px;
+      }
+      .chat-input input[type="text"] {
+        flex-grow: 1;
+        border: none;
+        background-color: #333;
+        color: #eee;
+        font-size: 16px;
+        padding: 10px;
+      }
+      .chat-input input[type="submit"] {
+        background-color: #444;
+        color: #eee;
+        border: none;
+        font-size: 16px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header">
+        <h1>Chat App</h1>
+      </div>
+      <div class="chat-log">
+        <!-- Add chat messages here -->
+        <p class="user-message">Hey there</p>
+        <p class="bot-message">Hello! How can I help you today?</p>
+      </div>
+      <form class="chat-input">
+        <input type="text" placeholder="Enter message...">
+        <input type="submit" value="Send">
+      </form>
+    </div>
+  </body>
+</html>
