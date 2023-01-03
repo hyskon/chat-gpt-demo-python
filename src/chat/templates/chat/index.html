@@ -60,13 +60,16 @@
         <h1>Chat App</h1>
       </div>
       <div class="chat-log">
-        <!-- Add chat messages here -->
-        <p class="user-message">Hey there</p>
-        <p class="bot-message">Hello! How can I help you today?</p>
+        <!-- Display chat input -->
+        
+        <p class="user-message">{{ chat_input }}</p>
+        <!-- Display chat response -->
+        <p class="bot-message">{{ chat_response }}</p>
       </div>
-      <form class="chat-input">
-        <input type="text" placeholder="Enter message...">
-        <input type="submit" value="Send">
+      <form method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        <input type="text" name="chat_input" autofocus>
+        <button type="submit">Send</button>
       </form>
     </div>
   </body>
