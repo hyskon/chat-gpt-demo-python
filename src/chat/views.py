@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 import openai
 from .models import Conversation, Message
@@ -43,4 +43,17 @@ def home(request):
     return render(request, 'chat/index.html', {
         'chat_input': chat_input,
         'chat_response': chat_response,
+    })
+    
+# Conversation view
+
+def conversation_view(request, conversation_id):
+    # Get conversation and messages
+    conversation = get_object_or_404(Conversation, pk=conversation_id)
+    messages = Message.objects.filter(conversation=conversation)
+
+    # Render conversation template with messages
+    return render(request, 'conversation.html', {
+        'conversation': conversation,
+        'messages': messages,
     })
