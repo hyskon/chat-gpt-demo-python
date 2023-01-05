@@ -47,21 +47,25 @@ def app(request, conversation_id):
         prompt = request.POST.get('prompt')
         
         # get api key        
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-              
-        # Use GPT-3 model to generate a response
-        # Build history string
-        chat_history = '' 
-
-        # Get the history as a string with a maximum length of 2000 tokens
-        chat_history = "\n".join([message.question + "\n" + message.answer for message in messages[1024:]])
+        openai.api_key = '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'
         
+        # get all previous messages
+        previous_messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
+
+        # Build history string
+        history = ''     
+        for message in previous_messages:
+            history += f"{message.question}\n{message.answer}\n"  
+
+        # limit history
+        last_messages = history[-2000:] 
+         
         # connect with openai api       
         response = openai.Completion.create(
             model="text-davinci-003",
-            prompt=f"{chat_history}\n{prompt}",
+            prompt=f"{last_messages}\n{prompt}",
             temperature=0.7,
-            max_tokens=1024,
+            max_tokens=1296,
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0,
