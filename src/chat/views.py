@@ -1,10 +1,14 @@
+import os
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 import openai
 from .models import Conversation, Message
 from .forms import NewConversationForm
-
+import environ
+#
+env = environ.Env()
+environ.Env.read_env()
 # Create your views here.
 def home(request):    
     # Get all conversations
@@ -41,13 +45,13 @@ def app(request, conversation_id):
     if 'prompt' in request.POST:
         # Get chat input from user
         prompt = request.POST.get('prompt')
-               
-        # Use GPT-2 model to generate a response
-        openai.api_key = "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"
+        
+        # get api key        
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+              
+        # Use GPT-3 model to generate a response
         # Build history string
-        chat_history = ''
-        # Get all messages for the conversation
-        last_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
+        chat_history = '' 
 
         # Get the history as a string with a maximum length of 2000 tokens
         chat_history = "\n".join([message.question + "\n" + message.answer for message in messages[1024:]])
@@ -55,7 +59,7 @@ def app(request, conversation_id):
         # connect with openai api       
         response = openai.Completion.create(
             model="text-davinci-003",
-            prompt=f"{chat_history}{prompt}",
+            prompt=f"{chat_history}\n{prompt}",
             temperature=0.7,
             max_tokens=1024,
             top_p=1,
@@ -72,7 +76,7 @@ def app(request, conversation_id):
             question=prompt,
             answer=chat_response,
         )
-        # return redirect('app', conversation_id=conversation.id)
+        
     # Render chat template with chat input and chat response
     return render(request, 'chat/conversation.html', {
         'chat_input': prompt,
