@@ -7,7 +7,10 @@ def generateUUID():
     return str(uuid4())
 
 class Conversation(models.Model):
+    #fields for conversation
     conversation_id = models.CharField(max_length=255, unique=True, default=generateUUID, editable=False)
+    name = models.CharField(max_length=255,blank=True)
+    timestamp = models.DateTimeField(auto_now=True)
     def __str__(self):
         return "{}:{}..".format(self.id, self.conversation_id[:10])
 

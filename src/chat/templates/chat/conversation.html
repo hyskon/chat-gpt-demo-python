@@ -1,0 +1,44 @@
+{% load static %}
+<html>
+  <head>
+    <title>Conversation {{conversation.name}}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  </head>
+  <body>
+    <div id="app">
+      <div id="chat_container">
+          {% for message in messages %}                
+          <div class="wrapper false">
+            <div class="chat">
+              <div class="profile">
+              <img
+                src="{% static 'assets/user.svg'%}"
+                alt="user"
+              />
+              </div>
+              <div class="message" id="">{{ message.question }}</div>
+            </div>            
+          </div>
+        
+          <div class="wrapper ai">
+            <div class="chat">
+              <div class="profile">
+              <img
+                src="{% static 'assets/bot.svg'%}"
+                alt="bot"
+              />
+              </div>
+              <div class="message" id="">{{ message.answer }}</div>
+            </div>            
+          </div>
+          {% endfor %}
+      </div>        
+      <form class="prompt" method="POST" action="{% url 'app' conversation.id %}">
+          {% csrf_token %}
+          <textarea name="prompt" rows="1" cols="1" placeholder="Uw vraag..."></textarea>
+          <button type="submit"><img src="{%  static 'assets/send.svg'%}" /></button>
+      </form>
+    </div>    
+    <script type="module" src="{%  static 'js/script.js'%}"></script>
+  </body>
+</html>

@@ -1,76 +1,22 @@
+{% load static %}
 <html>
   <head>
-    <title>Chat App</title>
-    <style>
-      /* Add some style to make the chat look nice */
-      body {
-        background-color: #222;
-        color: #eee;
-        font-family: sans-serif;
-      }
-      .chat-container {
-        max-width: 500px;
-        margin: 0 auto;
-      }
-      .chat-header {
-        background-color: #333;
-        padding: 10px;
-        text-align: center;
-      }
-      .chat-log {
-        background-color: #333;
-        overflow-y: scroll;
-        height: 400px;
-      }
-      .chat-log p {
-        margin: 0;
-        padding: 10px;
-      }
-      .user-message {
-        background-color: #555;
-      }
-      .bot-message {
-        background-color: #444;
-      }
-      .chat-input {
-        display: flex;
-        background-color: #333;
-        padding: 10px;
-      }
-      .chat-input input[type="text"] {
-        flex-grow: 1;
-        border: none;
-        background-color: #333;
-        color: #eee;
-        font-size: 16px;
-        padding: 10px;
-      }
-      .chat-input input[type="submit"] {
-        background-color: #444;
-        color: #eee;
-        border: none;
-        font-size: 16px;
-        padding: 10px;
-      }
-    </style>
+    <title>Chat app - Home</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
   <body>
-    <div class="chat-container">
-      <div class="chat-header">
-        <h1>Chat App</h1>
-      </div>
-      <div class="chat-log">
-        <!-- Display chat input -->
-        
-        <p class="user-message">{{ chat_input }}</p>
-        <!-- Display chat response -->
-        <p class="bot-message">{{ chat_response }}</p>
-      </div>
-      <form method="post" action="{% url 'home' %}">
-        {% csrf_token %}
-        <input type="text" name="chat_input" autofocus>
-        <button type="submit">Send</button>
-      </form>
-    </div>
+<!-- home.html template -->
+<div class="app">
+    <h1>Conversations</h1>
+
+    {% for conversation in conversations %}
+    <a href="{% url 'app' conversation.id %}">{{ conversation.name }}</a>
+    {% endfor %}
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+    <button type="submit">New Conversation</button>2
+  </form>
+</div>
   </body>
 </html>
