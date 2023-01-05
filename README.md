@@ -15,15 +15,17 @@ This is a chat app where you can have conversations with an AI.
 ## Installation
 1. Clone the repository
 ```
-git clone https://github.com/user/repo.git
+https://github.com/hyskon/chat-gpt-demo-python.git
 ```
-2. Navigate to the project directory
+2 Create a virtual environment and install the dependencies.
 ```
-cd chat_app
-```
-3. Install the required packages
-```
+python3 -m venv env
+source env/Scripts/activate
 pip install -r requirements.txt
+```
+3. Navigate to the project source directory
+```
+cd src
 ```
 4. Set the OpenAI API key as an environment variable
 ```
@@ -31,6 +33,7 @@ export OPENAI_API_KEY=YOUR_API_KEY
 ```
 5. Run the migration files to create the necessary database tables
 ```
+python manage.py makemigrations
 python manage.py migrate
 ```
 6. Run the development server
