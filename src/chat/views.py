@@ -5,10 +5,8 @@ from django.urls import reverse
 import openai
 from .models import Conversation, Message
 from .forms import NewConversationForm
-import environ
-#
-env = environ.Env()
-environ.Env.read_env()
+from dotenv import load_dotenv
+
 # Create your views here.
 def home(request):    
     # Get all conversations
@@ -46,8 +44,10 @@ def app(request, conversation_id):
         # Get chat input from user
         prompt = request.POST.get('prompt')
         
-        # get api key        
-        openai.api_key = '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'
+        
+        # get api key
+        load_dotenv()       
+        openai.api_key = os.getenv("OPENAI_API_KEY")
         
         # get all previous messages
         previous_messages = Message.objects.filter(conversation=conversation).order_by('timestamp')
