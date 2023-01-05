@@ -35,7 +35,7 @@ def app(request, conversation_id):
     
     # get conversation and messages 
     conversation = get_object_or_404(Conversation, pk=conversation_id)
-    messages = Message.objects.filter(conversation=conversation)    
+    messages = Message.objects.filter(conversation=conversation).order_by('timestamp')    
     
     # Check if there is the user submitted question
     if 'prompt' in request.POST:
@@ -44,14 +44,23 @@ def app(request, conversation_id):
                
         # Use GPT-2 model to generate a response
         openai.api_key = "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"
+        # Build history string
+        chat_history = ''
+        # Get all messages for the conversation
+        last_messages = Message.objects.filter(conversation=conversation).order_by('-timestamp')
+
+        # Get the history as a string with a maximum length of 2000 tokens
+        chat_history = "\n".join([message.question + "\n" + message.answer for message in messages[1024:]])
+        
+        # connect with openai api       
         response = openai.Completion.create(
             model="text-davinci-003",
-            prompt=f"{prompt}",
+            prompt=f"{chat_history}{prompt}",
             temperature=0.7,
             max_tokens=1024,
             top_p=1,
             frequency_penalty=0,
-            presence_penalty=0
+            presence_penalty=0,
         )       
 
         # Get response text
