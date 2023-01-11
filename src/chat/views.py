@@ -64,7 +64,7 @@ def app(request, conversation_id):
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=f"{last_messages}\n{prompt}",
-            temperature=0.7,
+            temperature=0,
             max_tokens=1296,
             top_p=1,
             frequency_penalty=0,
